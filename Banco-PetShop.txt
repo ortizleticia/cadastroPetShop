@@ -1,0 +1,124 @@
+create database PetShop
+use PetShop
+
+ 
+
+create table sexo (
+    cd_sexo            int not null identity (1,1),
+    ds_sexo            varchar (200) not null,
+
+ 
+
+    constraint pk_Sexo primary key (cd_sexo)
+)
+
+ 
+
+create table porte (
+    cd_porte        int not null identity (1,1),
+    ds_porte        varchar (200) not null,
+
+ 
+
+    constraint pk_Porte primary key (cd_porte)
+)
+
+ 
+
+create table servico(
+    cd_servico        int not null identity (1,1),
+    ds_servico        varchar (200) not null,
+    vlr_preco        decimal (7, 2) not null,
+
+ 
+
+    constraint pk_Servico primary key (cd_servico)
+)
+
+ 
+
+create table porteservico (
+    cd_porteservico        int not null identity (1,1),
+    cd_servico            int not null,
+    cd_porte            int not null,
+
+ 
+
+    constraint pk_PorteServico primary key (cd_porteservico),
+    constraint fk_PorteServico_Servico foreign key (cd_servico) references servico (cd_servico),
+    constraint fk_PorteServico_Porte foreign key (cd_porte) references porte (cd_porte)
+)
+
+ 
+
+create table cliente (
+    cd_cliente        int not null identity (1,1),
+    nm_cliente        varchar(100) not null,
+    dt_nascimento    date not null,
+    nr_cpf            bigint not null,
+    cd_sexo            int not null,
+    
+    constraint pk_Cliente primary key (cd_cliente),
+    constraint fk_Cliente_Sexo foreign key (cd_sexo) references sexo (cd_sexo)
+)
+
+ 
+
+create table animal (
+    cd_animal        int not null identity (1,1),
+    nm_animal        varchar(100) not null,
+    tp_animal        varchar (50) not null,
+    dt_nascimento    date not null,
+    ds_raca            varchar (100) not null,
+    cd_sexo            int not null,
+    cd_porte        int not null,
+    cd_cliente        int not null,
+
+ 
+
+    constraint pk_Animal primary key (cd_animal),
+    constraint fk_Animal_Sexo foreign key (cd_sexo) references sexo (cd_sexo),
+    constraint fk_Animal_Porte foreign key (cd_porte) references porte (cd_porte),
+    constraint fk_Animal_Cliente foreign key (cd_cliente) references cliente (cd_cliente)
+)
+
+ 
+
+create table funcionario (
+    cd_funcionario        int not null identity (1,1),
+    nm_funcionario        varchar (100) not null,
+    dt_nascimento        date not null,
+    nr_cpf                bigint not null,
+    cd_sexo                int not null,
+
+ 
+
+    constraint pk_Funcionario primary key (cd_funcionario),
+    constraint fk_Funcionario_Sexo foreign key (cd_sexo) references sexo (cd_sexo)
+)
+
+ 
+
+create table atendimento (
+    cd_atendimento        int not null identity (1,1),
+    ds_formapgto        varchar (50) not null,
+    cd_animal            int not null,    
+    cd_funcionario        int not null,    
+    cd_servico            int not null,
+
+ 
+
+    constraint pk_Atendimento primary key (cd_atendimento),
+    constraint fk_Atendimento_Animal foreign key (cd_animal) references animal (cd_animal),
+    constraint fk_Atendimento_Funcionario foreign key (cd_funcionario) references funcionario (cd_funcionario),
+    constraint fk_Atendimento_Servico foreign key (cd_servico) references servico (cd_servico)
+)
+
+create table USERS(
+
+
+    cd_usuario int primary key identity (1,1),
+    nm_usuario varchar                  (100),
+    ds_login   varchar                  (50),
+    ds_senha   varchar                  (50)
+)
